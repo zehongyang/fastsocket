@@ -1,0 +1,5 @@
+websocket:
+  port: "8000"
+  readtimeout: 50
+  writetimeout: 10
+  bucket: 16
