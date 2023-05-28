@@ -285,10 +285,11 @@ func New(options ...OptionFunc) *WebSocketEngine {
 	return &enging
 }
 
-func (e *WebSocketEngine) Serve() (err error) {
+func (e *WebSocketEngine) Serve(handler IHandler) (err error) {
 	if e.handler == nil {
 		return ErrHandlerNil
 	}
+	e.handler = handler
 	upgrader := websocket.Upgrader{WriteBufferSize: 1024, ReadBufferSize: 1024}
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		var (
@@ -305,10 +306,6 @@ func (e *WebSocketEngine) Serve() (err error) {
 	})
 	logger.I("WebSocket Listening On Port", zap.Any("port", e.config.Port))
 	return http.ListenAndServe(e.config.Port, nil)
-}
-
-func (e *WebSocketEngine) Handle(handler IHandler) {
-	e.handler = handler
 }
 
 type IHandler interface {
