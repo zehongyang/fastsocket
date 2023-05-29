@@ -286,7 +286,7 @@ func New(options ...OptionFunc) *WebSocketEngine {
 }
 
 func (e *WebSocketEngine) Serve(handler IHandler) (err error) {
-	if e.handler == nil {
+	if handler == nil {
 		return ErrHandlerNil
 	}
 	e.handler = handler
